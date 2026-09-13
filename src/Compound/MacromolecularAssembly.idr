@@ -4,10 +4,6 @@ import Core.BoxInt
 import Core.Multiset
 import Core.VexelMaxel
 import Core.UnixelFraction
-import Compound.HadronicConfinement
-import Compound.QuarkHadronAlgebra
-import Compound.AlphaReplication
-import Compound.StellarNucleosynthesis
 import Compound.MolecularBonding
 import Compound.WatsonCrickBasePairing
 import Data.List

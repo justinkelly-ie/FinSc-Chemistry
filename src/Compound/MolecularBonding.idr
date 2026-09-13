@@ -4,8 +4,6 @@ import Core.BoxInt
 import Core.VexelMaxel
 import Math.RationalTrig
 import Math.LinAlgebra.MetricTensor
-import Compound.HadronicConfinement
-import Compound.AlphaReplication
 import Data.Vect
 
 %default total
