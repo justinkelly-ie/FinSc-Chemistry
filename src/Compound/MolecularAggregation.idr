@@ -3,7 +3,7 @@ module Compound.MolecularAggregation
 import Core.BoxInt
 import Core.Multiset
 import Core.UnixelFraction
-import Core.TransformMultiset
+import Core.MaxelTransform
 import Math.LawAlgebra
 import public Math.HydrogenBonding
 import Data.List
@@ -49,7 +49,7 @@ record Molecule where
 
 ||| Molecular Aggregation Transform Multiset (G ⊗ Z ⊗ J)
 public export
-molecularAggregationTransform : TransformMultiset AtomicElement AtomicElement
+molecularAggregationTransform : MaxelTransform AtomicElement AtomicElement
 molecularAggregationTransform = mkTransformBox EllipticSector unitUnixelFraction
   [ ((hydrogenAtom, hydrogenAtom), intToBoxInt 1)
   , ((oxygenAtom, oxygenAtom), intToBoxInt 1)

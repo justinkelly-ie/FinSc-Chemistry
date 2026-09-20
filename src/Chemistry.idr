@@ -1,0 +1,20 @@
+module Chemistry
+
+import public Chemistry.HydrogenBonding
+import public Chemistry.NucleicAcidBasePairing
+import public Compound.Biomolecules
+import public Compound.ChemistryScaleTransforms
+import public Compound.HydrogenBonding
+import public Compound.MacromolecularAssembly
+import public Compound.MacromolecularChirality
+import public Compound.MolecularAggregation
+import public Compound.MolecularBonding
+import public Compound.WatsonCrickBasePairing
+import public Math.HydrogenBonding
+import public Math.MacromolecularChirality
+import public Math.NucleicAcidBasePairing
+import public Math.PeakBindingEnergy
+import public Math.PlasmaRecombination
+import public Math.TripleAlphaNucleosynthesis
+
+%default total

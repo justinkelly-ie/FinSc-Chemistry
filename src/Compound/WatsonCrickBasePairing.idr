@@ -1,12 +1,7 @@
 module Compound.WatsonCrickBasePairing
 
-import Core.BoxInt
-import Core.VexelMaxel
-import Compound.MolecularBonding
-import Compound.HydrogenBonding
-import Core.Multiset
-import Core.UnixelFraction
-import Core.TransformMultiset
+import Core
+import Transform
 import Data.Vect
 
 %default total
@@ -140,7 +135,7 @@ Eq BasePairClass where
 ||| Z: 1 / [1] (Exact 1:1 pairing ratio)
 ||| J: Nucleobase -> BasePairClass
 public export
-basePairingTransform : TransformMultiset Nucleobase BasePairClass
+basePairingTransform : MaxelTransform Nucleobase BasePairClass
 basePairingTransform = mkTransformBox EllipticSector unitUnixelFraction
   [ ((Adenine, AT_Pair), intToBoxInt 1)
   , ((Thymine, AT_Pair), intToBoxInt 1)
