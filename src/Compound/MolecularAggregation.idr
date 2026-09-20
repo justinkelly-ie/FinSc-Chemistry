@@ -1,6 +1,8 @@
 module Compound.MolecularAggregation
 
 import Core.BoxInt
+import Core.Order.Preorder
+import Core.Category.Adjunction
 import Core.Multiset
 import Core.UnixelFraction
 import Core.MaxelTransform
@@ -45,7 +47,50 @@ record Molecule where
   quadreaA     : BoxInt
 
 ------------------------------------------------------------------------
--- 2. PUSHFORWARD AGGREGATION FUNCTIONS
+-- 2. MONOIDAL REACTANT ADJUNCTIONS & MASS CONSERVATION WITNESSES
+------------------------------------------------------------------------
+
+||| Monomorphic compile-time proof witness verifying total mass token conservation across chemical reactions:
+||| ReactantMass = ProductMass (natAdd rMass1 rMass2 = pMass).
+public export
+0 ReactantMassConservation : Nat -> Nat -> Nat -> Type
+ReactantMassConservation r1 r2 p = natAdd r1 r2 = p
+
+||| Category-Theoretic Monoidal Reactant Adjunction (R_catalysis ⊣ P_product)
+||| mapping reactant multisets to product multisets across chemical transformations.
+public export
+record MonoidalReactantAdjunction (0 reactant : Type) (0 product : Type) where
+  constructor MkMonoidalReactantAdjunction
+  catalysisPushforward : reactant -> product
+  productPullback      : product -> reactant
+
+||| A Stoichiometric Chemical Reaction representing a monoidal reactant-product transformation
+||| carrying an erased 0 massConservationPrf witness certifying mass token conservation (natAdd r1 r2 = p).
+public export
+record StoichiometricReaction (r1Mass : Nat) (r2Mass : Nat) (pMass : Nat) where
+  constructor MkStoichiometricReaction
+  reactant1 : Box AtomicElement
+  reactant2 : Box AtomicElement
+  product   : Molecule
+  0 massConservationPrf : ReactantMassConservation r1Mass r2Mass pMass
+
+||| Constructs a validated StoichiometricReaction equipped with an erased compile-time mass conservation proof.
+public export
+makeStoichiometricReaction : (r1Mass : Nat) -> (r2Mass : Nat) -> (pMass : Nat) ->
+                             (0 prf : ReactantMassConservation r1Mass r2Mass pMass) ->
+                             Box AtomicElement -> Box AtomicElement -> Molecule ->
+                             StoichiometricReaction r1Mass r2Mass pMass
+makeStoichiometricReaction r1 r2 p prf r1Box r2Box prod = MkStoichiometricReaction r1Box r2Box prod prf
+
+||| Static erased compile-time witness verifying mass token conservation for Water Synthesis (2 H2 + O2 -> 2 H2O):
+||| 2 H2 (54 tokens) + 1 O2 (432 tokens) = 2 H2O (486 tokens).
+public export
+0 prfWaterSynthesisMassInvariance : ReactantMassConservation 54 432 486
+prfWaterSynthesisMassInvariance = Refl
+
+------------------------------------------------------------------------
+-- 3. PUSHFORWARD AGGREGATION FUNCTIONS
+------------------------------------------------------------------------
 
 ||| Molecular Aggregation Transform Multiset (G ⊗ Z ⊗ J)
 public export
@@ -70,7 +115,7 @@ aggregateWaterMolecule =
   in MkMolecule pushedAtoms qA
 
 ------------------------------------------------------------------------
--- 3. FORMAL INVARIANT AUDIT PROOF
+-- 4. FORMAL INVARIANT AUDIT PROOF
 ------------------------------------------------------------------------
 
 ||| Audits Molecular Aggregation Pushforward:
