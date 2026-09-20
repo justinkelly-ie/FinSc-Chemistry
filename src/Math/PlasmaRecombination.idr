@@ -16,13 +16,13 @@ import Data.List
 %inline
 public export
 ionizationFraction : BoxInt -> BoxInt -> UnixelFraction
-ionizationFraction nFree nTotal = MkUnixelFraction nFree (MkUnixel (cast (unwrapBox nTotal)))
+ionizationFraction nFree nTotal = MkUnixelFraction nFree (MkUnixel (boxToNat nTotal))
 
 ||| Verifies photon mean free path expansion (lambda -> infinity) upon recombination.
 %inline
 public export
 isDecoupledPlasma : UnixelFraction -> Bool
-isDecoupledPlasma (MkUnixelFraction (MkBoxInt n) (MkUnixel d)) = (n * 1000) <= cast d
+isDecoupledPlasma (MkUnixelFraction (MkBoxInt n) (MkUnixel d)) = (n * 1000) <= natToInteger d
 
 ------------------------------------------------------------------------
 -- 2. FORMAL INVARIANT AUDIT PROOFS
