@@ -3,22 +3,23 @@ version = 0.3.0
 authors = "Justin Kelly"
 brief   = "Layer 5a Molecular & Supramolecular Bonding Chemistry Library."
 
-depends = base
-        , Idris2-Hadron
-
+depends = Idris2-Geometry, Idris2-Multiset-Core, Idris2-Multiset-Transform, base, linear
 sourcedir = "src"
 
-modules = Compound.MolecularBonding
-        , Compound.HydrogenBonding
-        , Compound.WatsonCrickBasePairing
-        , Compound.MacromolecularChirality
-        , Compound.MacromolecularAssembly
-        , Compound.Biomolecules
-        , Compound.ChemistryScaleTransforms
-        , Compound.MolecularAggregation
-        , Math.HydrogenBonding
-        , Math.PeakBindingEnergy
-        , Math.MacromolecularChirality
-        , Math.NucleicAcidBasePairing
-        , Math.PlasmaRecombination
-        , Math.TripleAlphaNucleosynthesis
+modules = Chemistry.HydrogenBonding,
+          Chemistry.NucleicAcidBasePairing,
+          Compound.Biomolecules,
+          Compound.ChemistryScaleTransforms,
+          Compound.HydrogenBonding,
+          Compound.MacromolecularAssembly,
+          Compound.MacromolecularChirality,
+          Compound.MolecularAggregation,
+          Compound.MolecularBonding,
+          Compound.WatsonCrickBasePairing,
+          Math.HydrogenBonding,
+          Math.MacromolecularChirality,
+          Math.NucleicAcidBasePairing,
+          Math.PeakBindingEnergy,
+          Math.PlasmaRecombination,
+          Math.TripleAlphaNucleosynthesis
+
