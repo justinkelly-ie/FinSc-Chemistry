@@ -1,11 +1,11 @@
-# Idris2-Chemistry
+# FinSc-Chemistry
 
 [![Idris 2 Verification](https://img.shields.io/badge/Idris_2-0.8.0-blue.svg)](https://www.idris-lang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Layer 5b Substrate-Enzyme Kinetic Automata, Covalent Bonding & Nucleic Base Pairing for Idris 2**
 
-`Idris2-Chemistry` forms **Layer 5b** of the 10-layer constructive non-linear multiset science framework. It formalizes molecular bonding matrices, covalent bond formations, secondary hydrogen bonding networks, Watson-Crick base pairing (A-T, G-C), macromolecular chirality (L-amino acids), Michaelis-Menten kinetic automata, and nucleosynthesis balance networks.
+`FinSc-Chemistry` forms **Layer 5b** of the 10-layer constructive non-linear multiset science framework. It formalizes molecular bonding matrices, covalent bond formations, secondary hydrogen bonding networks, Watson-Crick base pairing (A-T, G-C), macromolecular chirality (L-amino acids), Michaelis-Menten kinetic automata, and nucleosynthesis balance networks.
 
 ---
 
@@ -36,8 +36,8 @@
 ## 🚀 Building & Installing
 
 ```bash
-idris2 --build Idris2-Chemistry.ipkg
-idris2 --install Idris2-Chemistry.ipkg
+idris2 --build FinSc-Chemistry.ipkg
+idris2 --install FinSc-Chemistry.ipkg
 ```
 
 ---
