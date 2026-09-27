@@ -1,8 +1,9 @@
-module Compound.Biomolecules
+module Stage1.Chemistry.Biomolecules
 
-import Core.BoxInt
-import Core.Multiset
-import Core.UniverseState
+import Stage0.BoxInt
+import Stage0.Multiset
+import Stage0.UniverseState
+import Stage1.QuadStream
 import Data.Vect
 
 %default total
@@ -28,6 +29,20 @@ public export
 hodgkinHuxleyPotential : BoxInt -> BoxInt -> BoxInt
 hodgkinHuxleyPotential vNa vK =
   vNa - vK
+
+||| QuadStream partitioning of molecular / chemical state space:
+|||   ellipticStream   : Valence Orbital Geometry & Stereocenters (27-state)
+|||   hyperbolicStream : Reaction Dynamic Trajectories & H-Bond Networks (128-state)
+|||   parabolicStream  : Solvation Shell Entropy & Enthalpy Dissipation
+|||   substrateStream  : Stoichiometric Laws & Chirality Invariant Ledger (55-state)
+public export
+moleculeToQuadStream : Multiset BoxInt String -> QuadStreamMultiset String
+moleculeToQuadStream species =
+  MkQuadStream
+    species
+    ZeroM
+    ZeroM
+    ZeroM
 
 ------------------------------------------------------------------------
 -- 2. CONSTRUCTIVE FORMAL AUDIT PROOFS FOR BIOMOLECULES

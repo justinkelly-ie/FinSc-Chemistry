@@ -1,13 +1,13 @@
-module Compound.MolecularAggregation
+module Stage0.Chemistry.MolecularAggregation
 
-import Core.BoxInt
-import Core.Order.Preorder
-import Core.Category.Adjunction
-import Core.Multiset
-import Core.UnixelFraction
-import Core.MaxelTransform
-import Math.LawAlgebra
-import public Math.HydrogenBonding
+import Stage0.BoxInt
+import Stage1.Order.Preorder
+import Stage1.Category.Adjunction
+import Stage0.Multiset
+import Stage1.UnixelFraction
+import Stage1.MaxelTransform
+import Stage1.Math.LawAlgebra
+import public Stage1.Chemistry.HydrogenBonding
 import Data.List
 
 %default total
@@ -123,4 +123,4 @@ aggregateWaterMolecule =
 %inline
 public export
 auditMolecularAggregationProof : Bool
-auditMolecularAggregationProof = Math.HydrogenBonding.isTetrahedralWaterPercolation 4
+auditMolecularAggregationProof = Stage1.Chemistry.HydrogenBonding.isTetrahedralWaterPercolation 4

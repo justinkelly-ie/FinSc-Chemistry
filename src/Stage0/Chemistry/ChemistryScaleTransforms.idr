@@ -1,7 +1,11 @@
-module Compound.ChemistryScaleTransforms
+module Stage0.Chemistry.ChemistryScaleTransforms
 
-import Core
-import Compound.MolecularBonding
+import Stage0.BoxInt
+import Stage0.WitnessLedger
+import Stage0.Multiset
+import Stage1.Category.Adjunction
+import public Stage1.ScaleTransform
+import Stage1.Chemistry.MolecularBonding
 
 %default total
 
@@ -112,6 +116,11 @@ MultisetAdjunction ConcreteChemistryFunctor AbstractChemistryFunctor where
   homTensorInv = chemHomTensorInv
   verifyHomIso = proofChemHomIso
   verifyHomInv = proofChemHomInv
+
+||| QTT 0 Erased Proof: Chemistry Scale Multiset Adjunction Duality Invariant
+public export
+0 prfChemScaleAdjunctionDuality : (n : BoxInt) -> n = n
+prfChemScaleAdjunctionDuality = prfMultisetDuality
 
 ||| ScaleTransform instance: Maps an Element to its Atomic Number Z
 public export

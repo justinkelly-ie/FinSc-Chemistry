@@ -1,6 +1,6 @@
-module Math.PeakBindingEnergy
+module Stage0.Chemistry.PeakBindingEnergy
 
-import Core.BoxInt
+import Stage0.BoxInt
 import Data.List
 
 %default total

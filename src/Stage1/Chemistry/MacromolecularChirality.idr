@@ -1,9 +1,9 @@
-module Compound.MacromolecularChirality
+module Stage1.Chemistry.MacromolecularChirality
 
-import Core.BoxInt
-import Core.VexelMaxel
-import Math.LinAlgebra.MetricTensor
-import Compound.MolecularBonding
+import Stage0.BoxInt
+import Stage1.VexelMaxel
+import Stage1.LinAlgebra.MetricTensor
+import Stage1.Chemistry.MolecularBonding
 import Data.Vect
 
 %default total

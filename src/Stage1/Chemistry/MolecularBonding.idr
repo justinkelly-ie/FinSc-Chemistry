@@ -1,10 +1,13 @@
-module Compound.MolecularBonding
+module Stage1.Chemistry.MolecularBonding
 
-import Core.BoxInt
-import Core.VexelMaxel
-import Math.RationalTrig
-import Math.LinAlgebra.MetricTensor
+import Stage0.BoxInt
+import Stage1.VexelMaxel
+import Stage1.RationalTrig
+import Stage1.LinAlgebra.MetricTensor
+import Stage1.TypeTheory.Staging
+import Stage1.TypeTheory.TwoLevel
 import Data.Vect
+
 
 %default total
 
@@ -250,6 +253,21 @@ waterMolecule3D =
 public export
 auditTier5MolecularBondingProof : Bool
 auditTier5MolecularBondingProof = methaneTetrahedralSpreadProof
+
+------------------------------------------------------------------------
+-- 5. 2LTT STAGING CODE GENERATOR TRANSDUCER
+------------------------------------------------------------------------
+
+||| Deforested 2LTT staged code generator transducer for molecular bond matrix evaluation.
+%inline public export
+stagedMolecularBondingPipeline : List CovalentBond -> Code Maxel
+stagedMolecularBondingPipeline bonds = quote (bondsToMaxel bonds)
+
+||| QTT 0 erased proof witness verifying molecular bonding staging inverse identity.
+public export
+0 prfStagedMolecularBondingPipeline : (bonds : List CovalentBond) -> splice (stagedMolecularBondingPipeline bonds) = bondsToMaxel bonds
+prfStagedMolecularBondingPipeline bonds = inverseSpliceQuote (bondsToMaxel bonds)
+
 
 
 

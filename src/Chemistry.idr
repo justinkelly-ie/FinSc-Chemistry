@@ -1,20 +1,16 @@
 module Chemistry
 
-import public Chemistry.HydrogenBonding
-import public Chemistry.NucleicAcidBasePairing
-import public Compound.Biomolecules
-import public Compound.ChemistryScaleTransforms
-import public Compound.HydrogenBonding
-import public Compound.MacromolecularAssembly
-import public Compound.MacromolecularChirality
-import public Compound.MolecularAggregation
-import public Compound.MolecularBonding
-import public Compound.WatsonCrickBasePairing
-import public Math.HydrogenBonding
-import public Math.MacromolecularChirality
-import public Math.NucleicAcidBasePairing
-import public Math.PeakBindingEnergy
-import public Math.PlasmaRecombination
-import public Math.TripleAlphaNucleosynthesis
+import public Stage0.Chemistry.ChemistryScaleTransforms
+import public Stage0.Chemistry.MacromolecularAssembly
+import public Stage0.Chemistry.MolecularAggregation
+import public Stage0.Chemistry.PeakBindingEnergy
+import public Stage0.Chemistry.PlasmaRecombination
+import public Stage0.Chemistry.TripleAlphaNucleosynthesis
+
+import public Stage1.Chemistry.Biomolecules
+import public Stage1.Chemistry.HydrogenBonding
+import public Stage1.Chemistry.MacromolecularChirality
+import public Stage1.Chemistry.MolecularBonding
+import public Stage1.Chemistry.WatsonCrickBasePairing
 
 %default total

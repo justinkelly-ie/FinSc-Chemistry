@@ -1,7 +1,7 @@
-module Math.TripleAlphaNucleosynthesis
+module Stage0.Chemistry.TripleAlphaNucleosynthesis
 
-import Core.BoxInt
-import Math.Multiset
+import Stage0.BoxInt
+import Stage0.Multiset
 import Data.List
 
 

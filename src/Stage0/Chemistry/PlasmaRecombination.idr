@@ -1,8 +1,8 @@
-module Math.PlasmaRecombination
+module Stage0.Chemistry.PlasmaRecombination
 
-import Core.BoxInt
-import Core.VexelMaxel
-import Core.UnixelFraction
+import Stage0.BoxInt
+import Stage1.VexelMaxel
+import Stage1.UnixelFraction
 import Data.List
 
 %default total

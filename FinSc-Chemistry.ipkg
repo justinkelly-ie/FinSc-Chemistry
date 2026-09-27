@@ -7,20 +7,14 @@ depends = FinSc-Geometry, FinSc-Multiset-Core, FinSc-Multiset-Transform, base, l
 sourcedir = "src"
 
 modules = Chemistry,
-          Chemistry.HydrogenBonding,
-          Chemistry.NucleicAcidBasePairing,
-          Compound.Biomolecules,
-          Compound.ChemistryScaleTransforms,
-          Compound.HydrogenBonding,
-          Compound.MacromolecularAssembly,
-          Compound.MacromolecularChirality,
-          Compound.MolecularAggregation,
-          Compound.MolecularBonding,
-          Compound.WatsonCrickBasePairing,
-          Math.HydrogenBonding,
-          Math.MacromolecularChirality,
-          Math.NucleicAcidBasePairing,
-          Math.PeakBindingEnergy,
-          Math.PlasmaRecombination,
-          Math.TripleAlphaNucleosynthesis
-
+          Stage0.Chemistry.ChemistryScaleTransforms,
+          Stage0.Chemistry.MacromolecularAssembly,
+          Stage0.Chemistry.MolecularAggregation,
+          Stage0.Chemistry.PeakBindingEnergy,
+          Stage0.Chemistry.PlasmaRecombination,
+          Stage0.Chemistry.TripleAlphaNucleosynthesis,
+          Stage1.Chemistry.Biomolecules,
+          Stage1.Chemistry.HydrogenBonding,
+          Stage1.Chemistry.MacromolecularChirality,
+          Stage1.Chemistry.MolecularBonding,
+          Stage1.Chemistry.WatsonCrickBasePairing
