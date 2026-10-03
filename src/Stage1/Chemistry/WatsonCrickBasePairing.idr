@@ -146,7 +146,17 @@ basePairingTransform = mkTransformBox EllipticSector unitUnixelFraction
   , ((Uracil, AT_Pair), intToBoxInt 1)
   ]
 
-||| Audits Base Pairing Transform Multiset application.
+||| QTT 0 Erased Proof: Watson-Crick A-T base pair forms exactly 2 Hydrogen bonds.
 public export
-0 prfBasePairingTransform : (n : BoxInt) -> n = n
-prfBasePairingTransform = prfRefl
+0 prfAdenineThymineHBonds : basePairHBondCount Adenine Thymine = 2
+prfAdenineThymineHBonds = Refl
+
+||| QTT 0 Erased Proof: Watson-Crick G-C base pair forms exactly 3 Hydrogen bonds.
+public export
+0 prfGuanineCytosineHBonds : basePairHBondCount Guanine Cytosine = 3
+prfGuanineCytosineHBonds = Refl
+
+||| Audits Base Pairing Transform Multiset application (2 + 3 = 5 H-bonds across canonical pairs).
+public export
+0 prfBasePairingTransform : basePairHBondCount Adenine Thymine + basePairHBondCount Guanine Cytosine = 5
+prfBasePairingTransform = Refl

@@ -2,7 +2,7 @@ module Stage0.Chemistry.MolecularAggregation
 
 import Stage0.BoxInt
 import Stage1.Order.Preorder
-import Stage1.Category.Adjunction
+import Stage1.MultisetDuality
 import Stage0.Multiset
 import Stage1.UnixelFraction
 import Stage1.MaxelTransform
