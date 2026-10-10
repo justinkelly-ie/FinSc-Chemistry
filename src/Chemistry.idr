@@ -5,6 +5,7 @@ import public Stage0.Chemistry.MacromolecularAssembly
 import public Stage0.Chemistry.MolecularAggregation
 import public Stage0.Chemistry.PeakBindingEnergy
 import public Stage0.Chemistry.PlasmaRecombination
+import public Stage0.Chemistry.ReactionKinetics
 import public Stage0.Chemistry.TripleAlphaNucleosynthesis
 
 import public Stage1.Chemistry.Biomolecules

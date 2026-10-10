@@ -4,16 +4,17 @@ import Stage0.BoxInt
 import Stage0.Multiset
 import Stage1.UnixelFraction
 import Stage0.OnSeq.FusedStream
+import public Stage0.TransitionNetwork
 import Data.Fuel
 import Data.List
 
 %default total
 
 ------------------------------------------------------------------------
--- 1. DISCRETE STOCHASTIC CHEMICAL REACTION NETWORK CARRIERS
+-- 1. ABSTRACT SPECIES TOKENS & TRANSITION NETWORK ALIASES
 ------------------------------------------------------------------------
 
-||| A chemical species identifier in a discrete reaction network.
+||| An abstract chemical species identifier in a discrete reaction network.
 public export
 data SpeciesToken = SpeciesA | SpeciesB | SpeciesC
 
@@ -24,76 +25,188 @@ Eq SpeciesToken where
   SpeciesC == SpeciesC = True
   _        == _        = False
 
+public export
+Show SpeciesToken where
+  show SpeciesA = "A"
+  show SpeciesB = "B"
+  show SpeciesC = "C"
+
 ||| Reaction stoichiometry entry: delta change for a species count.
 public export
-record StoichiometryDelta where
-  constructor MkDelta
-  species : SpeciesToken
-  change  : BoxInt
-
-public export
-Eq StoichiometryDelta where
-  (MkDelta s1 c1) == (MkDelta s2 c2) = s1 == s2 && c1 == c2
+0 StoichiometryDelta : Type
+StoichiometryDelta = Stage0.TransitionNetwork.StoichiometryDelta SpeciesToken
 
 ||| Elementary chemical reaction channel R_j:
-||| Consumes reactants and produces products with an integer propensity rate.
 public export
-record ReactionChannel where
-  constructor MkChannel
-  channelId  : Nat
-  deltas     : List StoichiometryDelta
-  propensity : BoxInt
-
-public export
-Eq ReactionChannel where
-  (MkChannel id1 d1 p1) == (MkChannel id2 d2 p2) = id1 == id2 && d1 == d2 && p1 == p2
-
-------------------------------------------------------------------------
--- 2. DEFORESTED REACTION NETWORK STATE TRANSDUCER
-------------------------------------------------------------------------
+0 ReactionChannel : Type
+ReactionChannel = Stage0.TransitionNetwork.TransitionChannel SpeciesToken
 
 ||| Discrete chemical state: multiset tally of species populations.
 public export
 0 ChemicalState : Type
-ChemicalState = Multiset BoxInt SpeciesToken
+ChemicalState = TransitionState SpeciesToken
 
-||| Applies a single reaction delta to the chemical state multiset.
-public export
-applyDelta : ChemicalState -> StoichiometryDelta -> ChemicalState
-applyDelta state (MkDelta sp ch) =
-  let cur = multiplicity sp state
-      newVal = cur + ch
-      clamped = if unwrapBox newVal < 0 then intToBoxInt 0 else newVal
-  in update sp clamped state
-  where
-    update : SpeciesToken -> BoxInt -> ChemicalState -> ChemicalState
-    update s v ZeroM = AddM s v ZeroM
-    update s v (AddM k m rest) =
-      if k == s then AddM s v rest
-      else AddM k m (update s v rest)
-
-||| Fires a reaction channel, updating all participating species deltas in sequence.
-public export
-fireChannel : ReactionChannel -> ChemicalState -> ChemicalState
-fireChannel (MkChannel _ dList _) state =
-  foldl applyDelta state dList
-
-||| Deforested stream generator simulating chemical reaction trajectory over consecutive steps:
-||| Generates state trajectory without intermediate list allocations.
+||| Deforested stream generator simulating chemical reaction trajectory over consecutive steps.
 public export
 streamReactionKinetics : ReactionChannel -> ChemicalState -> FusedStream ChemicalState
-streamReactionKinetics channel initState =
-  unfoldStream (\st => Yield st (fireChannel channel st)) initState
+streamReactionKinetics = streamTransitionTrajectory
 
 ||| Runs a fueled reaction kinetics trajectory using stream fold.
 public export
 runReactionTrajectory : Fuel -> ReactionChannel -> ChemicalState -> ChemicalState
-runReactionTrajectory f channel initState =
-  foldStreamFuel f (\_, nextSt => nextSt) initState (streamReactionKinetics channel initState)
+runReactionTrajectory = runTransitionTrajectory
 
 ------------------------------------------------------------------------
--- 3. COMPILE-TIME REACTION CONSERVATION AUDIT
+-- 2. MOLECULAR SPECIES TOKENS & CHEMICAL SYNTHESIS NETWORKS
 ------------------------------------------------------------------------
+
+||| Molecular species tokens participating in stoichiometric reaction kinetics.
+public export
+data MolecularSpecies =
+    H2        -- Hydrogen gas (H2): 2 H atoms, mass 2
+  | O2        -- Oxygen gas (O2): 2 O atoms, mass 32
+  | H2O       -- Water (H2O): 2 H + 1 O, mass 18
+  | CO2       -- Carbon dioxide: 1 C + 2 O, mass 44
+  | CH4       -- Methane: 1 C + 4 H, mass 16
+  | N2        -- Nitrogen gas: 2 N atoms, mass 28
+  | NH3       -- Ammonia: 1 N + 3 H, mass 17
+
+public export
+Eq MolecularSpecies where
+  H2  == H2  = True
+  O2  == O2  = True
+  H2O == H2O = True
+  CO2 == CO2 = True
+  CH4 == CH4 = True
+  N2  == N2  = True
+  NH3 == NH3 = True
+  _   == _   = False
+
+public export
+Show MolecularSpecies where
+  show H2  = "H2"
+  show O2  = "O2"
+  show H2O = "H2O"
+  show CO2 = "CO2"
+  show CH4 = "CH4"
+  show N2  = "N2"
+  show NH3 = "NH3"
+
+||| Hydrogen atom count weight table per molecule.
+public export
+hAtomWeightTable : List (MolecularSpecies, BoxInt)
+hAtomWeightTable =
+  [ (H2, intToBoxInt 2)
+  , (O2, intToBoxInt 0)
+  , (H2O, intToBoxInt 2)
+  , (CO2, intToBoxInt 0)
+  , (CH4, intToBoxInt 4)
+  , (N2, intToBoxInt 0)
+  , (NH3, intToBoxInt 3)
+  ]
+
+||| Oxygen atom count weight table per molecule.
+public export
+oAtomWeightTable : List (MolecularSpecies, BoxInt)
+oAtomWeightTable =
+  [ (H2, intToBoxInt 0)
+  , (O2, intToBoxInt 2)
+  , (H2O, intToBoxInt 1)
+  , (CO2, intToBoxInt 2)
+  , (CH4, intToBoxInt 0)
+  , (N2, intToBoxInt 0)
+  , (NH3, intToBoxInt 0)
+  ]
+
+||| Carbon atom count weight table per molecule.
+public export
+cAtomWeightTable : List (MolecularSpecies, BoxInt)
+cAtomWeightTable =
+  [ (H2, intToBoxInt 0)
+  , (O2, intToBoxInt 0)
+  , (H2O, intToBoxInt 0)
+  , (CO2, intToBoxInt 1)
+  , (CH4, intToBoxInt 1)
+  , (N2, intToBoxInt 0)
+  , (NH3, intToBoxInt 0)
+  ]
+
+||| Nitrogen atom count weight table per molecule.
+public export
+nAtomWeightTable : List (MolecularSpecies, BoxInt)
+nAtomWeightTable =
+  [ (H2, intToBoxInt 0)
+  , (O2, intToBoxInt 0)
+  , (H2O, intToBoxInt 0)
+  , (CO2, intToBoxInt 0)
+  , (CH4, intToBoxInt 0)
+  , (N2, intToBoxInt 2)
+  , (NH3, intToBoxInt 1)
+  ]
+
+------------------------------------------------------------------------
+-- 3. CANONICAL CHEMICAL REACTION CHANNELS
+------------------------------------------------------------------------
+
+||| Water Synthesis: 2 H2 + O2 -> 2 H2O
+public export
+waterSynthesisChannel : TransitionChannel MolecularSpecies
+waterSynthesisChannel =
+  MkChannel 1
+    [ MkDelta H2 (intToBoxInt (-2))
+    , MkDelta O2 (intToBoxInt (-1))
+    , MkDelta H2O (intToBoxInt 2)
+    ]
+    (intToBoxInt 10)
+
+||| Methane Combustion: CH4 + 2 O2 -> CO2 + 2 H2O
+public export
+methaneCombustionChannel : TransitionChannel MolecularSpecies
+methaneCombustionChannel =
+  MkChannel 2
+    [ MkDelta CH4 (intToBoxInt (-1))
+    , MkDelta O2 (intToBoxInt (-2))
+    , MkDelta CO2 (intToBoxInt 1)
+    , MkDelta H2O (intToBoxInt 2)
+    ]
+    (intToBoxInt 25)
+
+||| Haber-Bosch Ammonia Synthesis: N2 + 3 H2 -> 2 NH3
+public export
+haberBoschChannel : TransitionChannel MolecularSpecies
+haberBoschChannel =
+  MkChannel 3
+    [ MkDelta N2 (intToBoxInt (-1))
+    , MkDelta H2 (intToBoxInt (-3))
+    , MkDelta NH3 (intToBoxInt 2)
+    ]
+    (intToBoxInt 5)
+
+------------------------------------------------------------------------
+-- 4. CONSERVATION LAW AUDITS
+------------------------------------------------------------------------
+
+||| Audits that Water Synthesis preserves Hydrogen and Oxygen atom counts.
+public export
+auditWaterSynthesisConservation : Bool
+auditWaterSynthesisConservation =
+  isConservativeDelta hAtomWeightTable waterSynthesisChannel.deltas &&
+  isConservativeDelta oAtomWeightTable waterSynthesisChannel.deltas
+
+||| Audits that Methane Combustion preserves Carbon, Hydrogen, and Oxygen atom counts.
+public export
+auditMethaneCombustionConservation : Bool
+auditMethaneCombustionConservation =
+  isConservativeDelta cAtomWeightTable methaneCombustionChannel.deltas &&
+  isConservativeDelta hAtomWeightTable methaneCombustionChannel.deltas &&
+  isConservativeDelta oAtomWeightTable methaneCombustionChannel.deltas
+
+||| Audits that Haber-Bosch Ammonia Synthesis preserves Nitrogen and Hydrogen atom counts.
+public export
+auditHaberBoschConservation : Bool
+auditHaberBoschConservation =
+  isConservativeDelta nAtomWeightTable haberBoschChannel.deltas &&
+  isConservativeDelta hAtomWeightTable haberBoschChannel.deltas
 
 ||| Audits mass-action discrete reaction kinetics over deforested stream transducers:
 ||| Tests reaction A -> B with stoichiometric conservation (A - 1, B + 1).
@@ -107,3 +220,12 @@ auditReactionKineticsProof =
       countB = multiplicity SpeciesB finalSt
       totalMass = countA + countB
   in unwrapBox countA == 5 && unwrapBox countB == 5 && unwrapBox totalMass == 10
+
+||| Combined audit verifying all molecular reaction kinetics and atom conservation.
+public export
+auditMolecularReactionKineticsProof : Bool
+auditMolecularReactionKineticsProof =
+  auditReactionKineticsProof &&
+  auditWaterSynthesisConservation &&
+  auditMethaneCombustionConservation &&
+  auditHaberBoschConservation
