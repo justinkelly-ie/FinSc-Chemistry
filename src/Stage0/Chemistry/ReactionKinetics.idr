@@ -56,6 +56,11 @@ public export
 runReactionTrajectory : Fuel -> ReactionChannel -> ChemicalState -> ChemicalState
 runReactionTrajectory = runTransitionTrajectory
 
+||| Runs a reaction kinetics trajectory over Nat fuel.
+public export
+runReactionTrajectoryNat : Nat -> ReactionChannel -> ChemicalState -> ChemicalState
+runReactionTrajectoryNat = runTransitionTrajectoryNat
+
 ------------------------------------------------------------------------
 -- 2. MOLECULAR SPECIES TOKENS & CHEMICAL SYNTHESIS NETWORKS
 ------------------------------------------------------------------------
@@ -215,7 +220,7 @@ auditReactionKineticsProof : Bool
 auditReactionKineticsProof =
   let initSt : ChemicalState = AddM SpeciesA (intToBoxInt 10) (AddM SpeciesB (intToBoxInt 0) ZeroM)
       rxn : ReactionChannel = MkChannel 1 [MkDelta SpeciesA (intToBoxInt (-1)), MkDelta SpeciesB (intToBoxInt 1)] (intToBoxInt 1)
-      finalSt = runReactionTrajectory (limit 5) rxn initSt
+      finalSt = runReactionTrajectoryNat 5 rxn initSt
       countA = multiplicity SpeciesA finalSt
       countB = multiplicity SpeciesB finalSt
       totalMass = countA + countB
