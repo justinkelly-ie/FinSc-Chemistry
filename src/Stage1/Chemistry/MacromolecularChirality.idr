@@ -44,7 +44,7 @@ Eq SignedVoxel where
 
 public export
 Show SignedVoxel where
-  show (MkSignedVoxel x y z) = "[" ++ show (unwrapBox x) ++ ", " ++ show (unwrapBox y) ++ ", " ++ show (unwrapBox z) ++ "]"
+  show (MkSignedVoxel x y z) = "[" ++ show x ++ ", " ++ show y ++ ", " ++ show z ++ "]"
 
 ||| Computes the discrete 3x3 determinant of three 3D displacement vectors:
 ||| det([v1, v2, v3]) = x1*(y2*z3 - y3*z2) - y1*(x2*z3 - x3*z2) + z1*(x2*y3 - x3*y2).
@@ -77,10 +77,10 @@ evaluateChirality3D s1 s2 s3 s4 =
   let d1 = subSignedVoxel s1 s4
       d2 = subSignedVoxel s2 s4
       d3 = subSignedVoxel s3 s4
-      detVal = unwrapBox (det3x3 d1 d2 d3)
-  in if detVal > 0
+      detVal = det3x3 d1 d2 d3
+  in if detVal > intToBoxInt 0
        then RightHanded
-       else if detVal < 0
+       else if detVal < intToBoxInt 0
               then LeftHanded
               else Achiral
 

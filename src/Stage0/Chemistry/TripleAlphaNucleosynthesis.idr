@@ -69,7 +69,7 @@ auditMultisetTripleAlphaMassConservation : Bool
 auditMultisetTripleAlphaMassConservation =
   let reactantMass = multisetIsotopeMass tripleAlphaReactants
       productMass  = multisetIsotopeMass tripleAlphaProducts
-  in reactantMass == productMass && unwrapBox reactantMass == 324
+  in reactantMass == productMass && reactantMass == intToBoxInt 324
 
 ------------------------------------------------------------------------
 -- 2. FORMAL INVARIANT AUDIT PROOFS
@@ -79,12 +79,11 @@ auditMultisetTripleAlphaMassConservation =
 ||| 1. 3 * 108 = 324 mass tokens for 12C core.
 ||| 2. 31P carries 837 mass tokens (31 amu).
 ||| 3. Pure multiset reaction mass conservation (Mass(3 alpha) == Mass(1 12C)).
-%inline
 public export
 auditLaw52TripleAlphaProof : Bool
 auditLaw52TripleAlphaProof =
   let c12 = tripleAlphaFusionTokens (intToBoxInt 108)
-  in (unwrapBox c12 == 324) &&
-     (unwrapBox phosphorus31MassTokens == 837) &&
+  in (c12 == intToBoxInt 324) &&
+     (phosphorus31MassTokens == intToBoxInt 837) &&
      auditMultisetTripleAlphaMassConservation
 

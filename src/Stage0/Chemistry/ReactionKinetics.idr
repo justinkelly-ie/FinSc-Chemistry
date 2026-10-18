@@ -224,7 +224,7 @@ auditReactionKineticsProof =
       countA = multiplicity SpeciesA finalSt
       countB = multiplicity SpeciesB finalSt
       totalMass = countA + countB
-  in unwrapBox countA == 5 && unwrapBox countB == 5 && unwrapBox totalMass == 10
+  in countA == intToBoxInt 5 && countB == intToBoxInt 5 && totalMass == intToBoxInt 10
 
 ||| Combined audit verifying all molecular reaction kinetics and atom conservation.
 public export

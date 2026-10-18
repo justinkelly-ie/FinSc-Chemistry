@@ -20,7 +20,7 @@ iron56MassTokens = intToBoxInt 1512
 %inline
 public export
 isIron56BindingPeak : BoxInt -> Bool
-isIron56BindingPeak m = unwrapBox m == 1512
+isIron56BindingPeak m = m == intToBoxInt 1512
 
 ||| Discrete nuclear species defined by mass number A and charge number Z.
 public export

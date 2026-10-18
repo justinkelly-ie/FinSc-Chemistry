@@ -94,12 +94,11 @@ isTetrahedralWaterPercolation coordNum = coordNum == 4
 ||| Audits Law 50 (Hydrogen Bond Network & Quadrea Geometry):
 ||| 1. Water bond quadrea A(1, 1, 1) = 3.
 ||| 2. Tetrahedral coordination number = 4.
-%inline
 public export
 auditLaw50HydrogenBondingProof : Bool
 auditLaw50HydrogenBondingProof =
   let qH2O = waterBondQuadrea (intToBoxInt 1) (intToBoxInt 1) (intToBoxInt 1)
-  in (unwrapBox qH2O == 3) && isTetrahedralWaterPercolation 4
+  in (qH2O == intToBoxInt 3) && isTetrahedralWaterPercolation 4
 
 ||| Audits the Hydrogen Bond Network & Water Quadrea Invariant:
 ||| 1. Liquid water hexamer maintains exact 1:1 molecule-to-H-bond percolation ratio.
@@ -109,7 +108,7 @@ auditHydrogenBondNetworkQuadreaProof : Bool
 auditHydrogenBondNetworkQuadreaProof =
   let hex = waterHexamerPercolation
       qH2O = waterBondQuadrea (intToBoxInt 1) (intToBoxInt 1) (intToBoxInt 1)
-  in (hex.waterCount == 6) && (hex.hBondCount == 6) && (unwrapBox qH2O == 3)
+  in (hex.waterCount == 6) && (hex.hBondCount == 6) && (qH2O == intToBoxInt 3)
 
 ||| Compile-time verification that hexamer percolation ratio is 1:1 (6 water molecules to 6 H-bonds).
 public export
@@ -118,7 +117,7 @@ prfHydrogenBondHexamerPercolation = Refl
 
 ||| Compile-time verification that water bond Archimedes quadrea A(1, 1, 1) = 3.
 public export
-prfWaterBondQuadreaIsThree : unwrapBox (waterBondQuadrea (intToBoxInt 1) (intToBoxInt 1) (intToBoxInt 1)) = 3
+prfWaterBondQuadreaIsThree : waterBondQuadrea (intToBoxInt 1) (intToBoxInt 1) (intToBoxInt 1) = intToBoxInt 3
 prfWaterBondQuadreaIsThree = Refl
 
 

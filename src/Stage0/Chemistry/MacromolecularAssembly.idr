@@ -50,9 +50,8 @@ rnaHydrogenBondCapacity numGC numAU = (3 * numGC) + (2 * numAU)
 ||| Audits Macromolecular Assembly & Iron-56 Token Conservation:
 ||| 1. Iron-56 carries exactly 1512 mass tokens (56 * 27).
 ||| 2. RNA strand with 10 GC pairs and 10 AU pairs carries 50 H-bonds (30 + 20).
-%inline
 public export
 auditMacromolecularAssemblyProof : Bool
 auditMacromolecularAssemblyProof =
-  unwrapBox iron56MassTokens == 1512 &&
+  iron56MassTokens == intToBoxInt 1512 &&
   rnaHydrogenBondCapacity 10 10 == 50

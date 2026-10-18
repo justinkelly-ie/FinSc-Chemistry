@@ -27,7 +27,7 @@ record AtomicElement where
 public export
 Eq AtomicElement where
   (MkAtomicElement a1 m1 e1) == (MkAtomicElement a2 m2 e2) =
-    (a1 == a2) && (unwrapBox m1 == unwrapBox m2) && (e1 == e2)
+    (a1 == a2) && (m1 == m2) && (e1 == e2)
 
 ||| Hydrogen Atom (1 proton, 27 mass tokens, 1 electron).
 public export

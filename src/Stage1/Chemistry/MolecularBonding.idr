@@ -222,7 +222,6 @@ methaneMolecule3D =
 ||| Proves that the bond angle between H1-C-H2 in Methane has exact Rational Spread s = 8/9
 ||| (corresponding to the tetrahedral bond angle theta ~ 109.47 degrees):
 ||| Q(C, H1) = 3, Q(C, H2) = 3, Q(H1, H2) = 8 => Spread = A(3,3,8) / (4*3*3) = 32/36 = 8/9.
-%inline
 public export
 methaneTetrahedralSpreadProof : Bool
 methaneTetrahedralSpreadProof =
@@ -232,7 +231,7 @@ methaneTetrahedralSpreadProof =
       res    = spread3D h1 carbon h2
       num    = fst res
       den    = snd res
-  in (unwrapBox num * 9) == (unwrapBox den * 8)
+  in (mulBox num (intToBoxInt 9)) == (mulBox den (intToBoxInt 8))
 
 
 ||| 3D Conformation of Water (H2O):
