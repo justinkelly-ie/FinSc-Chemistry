@@ -1,7 +1,7 @@
 module Stage0.Chemistry.PlasmaRecombination
 
 import Stage0.BoxInt
-import Stage1.VexelMaxel
+import Stage1.Basis.Coordinate
 import Stage1.UnixelFraction
 import Data.List
 
@@ -16,13 +16,13 @@ import Data.List
 %inline
 public export
 ionizationFraction : BoxInt -> BoxInt -> UnixelFraction
-ionizationFraction nFree nTotal = MkUnixelFraction nFree (MkUnixel (boxToNat nTotal))
+ionizationFraction nFree nTotal = mkUnixelFraction nFree (boxToNat nTotal)
 
 ||| Verifies photon mean free path expansion (lambda -> infinity) upon recombination.
 %inline
 public export
 isDecoupledPlasma : UnixelFraction -> Bool
-isDecoupledPlasma (MkUnixelFraction (MkBoxInt n) (MkUnixel d)) = (n * 1000) <= natToInteger d
+isDecoupledPlasma frac = (unwrapBox frac.num * 1000) <= cast (denominatorNat frac)
 
 ------------------------------------------------------------------------
 -- 2. FORMAL INVARIANT AUDIT PROOFS

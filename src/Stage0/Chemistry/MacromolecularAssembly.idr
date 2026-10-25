@@ -2,7 +2,6 @@ module Stage0.Chemistry.MacromolecularAssembly
 
 import Stage0.BoxInt
 import Stage0.Multiset
-import Stage1.VexelMaxel
 import Stage1.UnixelFraction
 import Stage1.Chemistry.MolecularBonding
 import Stage1.Chemistry.WatsonCrickBasePairing

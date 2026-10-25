@@ -1,7 +1,9 @@
 module Stage1.Chemistry.MolecularBonding
 
 import Stage0.BoxInt
-import Stage1.VexelMaxel
+import Stage1.Carrier.Maxel
+import Stage1.Carrier.Boxel
+import Stage1.Basis.Coordinate
 import Stage1.RationalTrig
 import Stage1.LinAlgebra.MetricTensor
 import Stage1.TypeTheory.Staging

@@ -1,7 +1,8 @@
 module Stage1.Chemistry.HydrogenBonding
 
 import Stage0.BoxInt
-import Stage1.VexelMaxel
+import Stage1.Carrier.Maxel
+import Stage1.Basis.Coordinate
 import Stage1.RationalTrig
 import Stage1.Chemistry.MolecularBonding
 import Data.Vect
